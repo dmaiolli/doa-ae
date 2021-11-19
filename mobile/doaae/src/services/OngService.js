@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = "http://10.0.2.2:8080/api/v1/ong";
+const BASE_URL = "https://salty-garden-90525.herokuapp.com/api/v1/ong";
 
 export const create = async (name, description, email, whatsapp, cnpj, uf, city, number, street) => {
     try {
