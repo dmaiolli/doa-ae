@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import { Icon } from "react-native-elements/dist/icons/Icon";
 import { ScrollView } from "react-native-gesture-handler";
 import { create } from "../../services/OngService";
+import { validar } from "../util/ONG";
 
 const NewOng = (props) => {
     const { navigate } = props.navigation;
@@ -18,9 +19,11 @@ const NewOng = (props) => {
     const [uf, setUf] = useState();
 
     const handleNewOng = () => {
-        create(entityName, description, email, whatsapp, cnpj, uf, city, number, street)
-            .then(navigate("home"))
-            .catch((erro) => console.error(erro))
+        if (validar(entityName, description, email, whatsapp, cnpj, uf, city, number, street)) {
+            create(entityName, description, email, whatsapp, cnpj, uf, city, number, street)
+                .then(navigate("home"))
+                .catch((erro) => console.error(erro))
+        }
     }
 
     return (
@@ -66,9 +69,11 @@ const NewOng = (props) => {
                         <Text style={styles.title}>Endereço</Text>
                         <TextInput
                             style={styles.input}
-                            placeholder="Estado"
+                            placeholder="Estado UF ex. 'SP'"
                             value={uf}
                             onChangeText={setUf}
+                            autoCapitalize="characters"
+                            maxLength={2}
                         />
                         <TextInput
                             style={styles.input}
@@ -89,7 +94,7 @@ const NewOng = (props) => {
                             onChangeText={setStreet}
                         />
                         <TouchableOpacity style={styles.button} onPress={handleNewOng}>
-                            <Icon name="mail" size={20} color="#FFF" />
+                            <Icon name="add" size={20} color="#FFF" />
                             <Text style={styles.buttonText}>Criar</Text>
                         </TouchableOpacity>
                     </View>

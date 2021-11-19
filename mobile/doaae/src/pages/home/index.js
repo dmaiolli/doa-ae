@@ -10,14 +10,20 @@ const Home = (props) => {
     const [uf, setUf] = useState('');
     const [city, setCity] = useState('');
 
-    const handleNavigateToList = () => navigate("listAll", { uf, city });
+    const handleNavigateToList = () => validate() ? navigate("listAll", { uf, city }) : null;
+
+    const validate = () => {
+        if (!uf.trim() || !city.trim()) {
+            alert('Preencha os campos corretamente');
+            return false;
+        }
+        return true;
+    }
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined} >
             <ScrollView>
                 <View style={styles.container}>
-
-
                     <View style={styles.main}>
                         <View>
                             <Text style={styles.title}>Seu aplicativo de doação de alimentos.</Text>
@@ -45,13 +51,13 @@ const Home = (props) => {
 
                         <TouchableOpacity style={styles.button} onPress={handleNavigateToList}>
                             <View style={styles.buttonIcon}>
-                                <Icon name="arrow-right" color="#FFF" size={24} />
+                                <Icon name="search" color="#FFF" size={24} />
                             </View>
                             <Text style={styles.buttonText}>Pesquisar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={() => navigate("newOng")}>
                             <View style={styles.buttonIcon}>
-                                <Icon name="arrow-right" color="#FFF" size={24} />
+                                <Icon name="add" color="#FFF" size={24} />
                             </View>
                             <Text style={styles.buttonText}>Cadastrar nova ONG</Text>
                         </TouchableOpacity>

@@ -4,6 +4,7 @@ import { Icon } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { update } from "../../services/OngService";
+import { validar } from "../util/ONG";
 
 const Edit = (props) => {
     const { cdOng, city, cnpj, description, email, name, number, street, uf, whatsapp } = props.route.params;
@@ -18,11 +19,11 @@ const Edit = (props) => {
     const [newCity, setCity] = useState(city);
     const [newUf, setUf] = useState(uf);
 
-    const defaultText = 'Olá, Tenho interesse em doar alimentos';
-
     const handleUpdateOng = () => {
-        update(cdOng, newName, newDescription, newEmail, newWhatsapp, newCnpj, newUf, newCity, newNumber, newStreet)
-            .then(props.navigation.navigate("home"));
+        if (validar(newName, newDescription, newEmail, newWhatsapp, newCnpj, newUf, newCity, newNumber, newStreet)) {
+            update(cdOng, newName, newDescription, newEmail, newWhatsapp, newCnpj, newUf, newCity, newNumber, newStreet)
+                .then(props.navigation.navigate("home"));
+        }
     }
 
     return (
@@ -68,9 +69,11 @@ const Edit = (props) => {
                         <Text style={styles.title}>Endereço</Text>
                         <TextInput
                             style={styles.input}
-                            placeholder="Estado"
+                            placeholder="Estado UF ex. 'SP'"
                             value={newUf}
+                            autoCapitalize="characters"
                             onChangeText={setUf}
+                            maxLength={2}
                         />
                         <TextInput
                             style={styles.input}

@@ -9,13 +9,9 @@ const Details = (props) => {
 
     const defaultText = 'Olá, Tenho interesse em doar alimentos';
 
-    const handleComposeMail = () => Linking.openURL(`mailto:${item.email}?subject='Doar%20alimento'`)
+    const handleComposeMail = () => Linking.openURL(`mailto:${item.email}?subject=${defaultText}`);
 
     const handleWhatsapp = () => Linking.openURL(`https://api.whatsapp.com/send?phone=${item.whatsapp}&text=${defaultText}`);
-
-    const handleUpdateOng = () => {
-        update(cdOng, name, description, email, whatsapp, cnpj, uf, city, number, street);
-    }
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -34,7 +30,7 @@ const Details = (props) => {
 
                 <View style={styles.footer}>
                     <TouchableOpacity style={styles.button} onPress={handleWhatsapp}>
-                        <Icon name="vertical-align-bottom" size={20} color="#FFF" />
+                        <Icon name="celphone" size={20} color="#FFF" />
                         <Text style={styles.buttonText}>Whatsapp</Text>
                     </TouchableOpacity>
 
