@@ -1,30 +1,32 @@
-import React, { useState } from "react";
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { Icon } from "react-native-elements/dist/icons/Icon";
+import React, { useEffect, useState } from "react";
+import { Button, Linking, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Icon } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
-import { create } from "../../services/OngService";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { update } from "../../services/OngService";
 
-const NewOng = (props) => {
-    const { navigate } = props.navigation;
+const Edit = (props) => {
+    const { cdOng, city, cnpj, description, email, name, number, street, uf, whatsapp } = props.route.params;
 
-    const [entityName, setEntityName] = useState();
-    const [email, setEmail] = useState();
-    const [description, setDescription] = useState();
-    const [whatsapp, setWhatsapp] = useState();
-    const [cnpj, setCpnj] = useState();
-    const [number, setNumber] = useState();
-    const [street, setStreet] = useState();
-    const [city, setCity] = useState();
-    const [uf, setUf] = useState();
+    const [newName, setEntityName] = useState(name);
+    const [newEmail, setEmail] = useState(email);
+    const [newDescription, setDescription] = useState(description);
+    const [newWhatsapp, setWhatsapp] = useState(whatsapp);
+    const [newCnpj, setCpnj] = useState(cnpj);
+    const [newNumber, setNumber] = useState(number);
+    const [newStreet, setStreet] = useState(street);
+    const [newCity, setCity] = useState(city);
+    const [newUf, setUf] = useState(uf);
 
-    const handleNewOng = () => {
-        create(entityName, description, email, whatsapp, cnpj, uf, city, number, street)
-            .then(navigate("home"))
-            .catch((erro) => console.error(erro))
+    const defaultText = 'Olá, Tenho interesse em doar alimentos';
+
+    const handleUpdateOng = () => {
+        update(cdOng, newName, newDescription, newEmail, newWhatsapp, newCnpj, newUf, newCity, newNumber, newStreet)
+            .then(props.navigation.navigate("home"));
     }
 
     return (
-        <KeyboardAvoidingView>
+        <SafeAreaView style={{ flex: 1 }}>
             <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.form}>
@@ -32,33 +34,33 @@ const NewOng = (props) => {
                         <TextInput
                             style={styles.input}
                             placeholder="Nome da entidade"
-                            value={entityName}
+                            value={newName}
                             onChangeText={setEntityName}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Email"
-                            value={email}
+                            value={newEmail}
                             onChangeText={setEmail}
                         />
                         <View style={styles.splitTwoItens}>
                             <TextInput
                                 style={styles.input50}
                                 placeholder="Whatsapp"
-                                value={whatsapp}
+                                value={newWhatsapp}
                                 onChangeText={setWhatsapp}
                             />
                             <TextInput
                                 style={styles.input50}
                                 placeholder="CNPJ"
-                                value={cnpj}
+                                value={newCnpj}
                                 onChangeText={setCpnj}
                             />
                         </View>
                         <TextInput
                             style={[styles.input, styles.multiline]}
                             placeholder="Descrição"
-                            value={description}
+                            value={newDescription}
                             onChangeText={setDescription}
                             multiline={true}
                             numberOfLines={5}
@@ -67,56 +69,51 @@ const NewOng = (props) => {
                         <TextInput
                             style={styles.input}
                             placeholder="Estado"
-                            value={uf}
+                            value={newUf}
                             onChangeText={setUf}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Cidade"
-                            value={city}
+                            value={newCity}
                             onChangeText={setCity}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Número"
-                            value={number}
+                            value={newNumber}
                             onChangeText={setNumber}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Rua/Avenida"
-                            value={street}
+                            value={newStreet}
                             onChangeText={setStreet}
                         />
-                        <TouchableOpacity style={styles.button} onPress={handleNewOng}>
+                        <TouchableOpacity style={styles.button} onPress={handleUpdateOng}>
                             <Icon name="mail" size={20} color="#FFF" />
-                            <Text style={styles.buttonText}>Criar</Text>
+                            <Text style={styles.buttonText}>Salvar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>
-        </KeyboardAvoidingView>
+        </SafeAreaView>
     )
 }
 
-
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         padding: 32,
+        paddingTop: 20,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
     },
     form: {
         backgroundColor: "#FFF",
         borderRadius: 8,
         marginTop: 15,
         padding: 16
-    },
-    title: {
-        fontSize: 18,
-        color: "#322153",
-        fontWeight: 'bold',
-        marginBottom: 6,
-        borderTopWidth: 1,
-        borderTopColor: '#F0F0F5'
     },
     input: {
         height: 35,
@@ -144,15 +141,15 @@ const styles = StyleSheet.create({
         height: 35
     },
     button: {
-        flex: 1,
+        width: '48%',
         backgroundColor: '#34CB79',
         borderRadius: 10,
         height: 50,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 15
     },
+
     buttonText: {
         marginLeft: 8,
         color: '#FFF',
@@ -161,4 +158,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default NewOng;
+export default Edit;

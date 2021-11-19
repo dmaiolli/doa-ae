@@ -1,42 +1,47 @@
-import React, { useState } from "react";
-import { Linking, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Button, Linking, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
-import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { update } from "../../services/OngService";
 
-const Details = () => {
-    const [data, setData] = useState();
-    const defaultText = 'Tenho interesse em doar alimentos';
+const Details = (props) => {
+    const { cdOng, city, cnpj, description, email, name, number, street, uf, whatsapp } = props.route.params;
 
-    const handleComposeMail = () => Linking.openURL(`mailto:${data.point.email}?subject='Doar%20alimento'`)
+    const defaultText = 'Olá, Tenho interesse em doar alimentos';
 
-    const handleWhatsapp = () => Linking.openURL(`whatsapp://send?phone=${data.point.whatsapp}&text=${defaultText}`);
+    const handleComposeMail = () => Linking.openURL(`mailto:${item.email}?subject='Doar%20alimento'`)
+
+    const handleWhatsapp = () => Linking.openURL(`https://api.whatsapp.com/send?phone=${item.whatsapp}&text=${defaultText}`);
+
+    const handleUpdateOng = () => {
+        update(cdOng, name, description, email, whatsapp, cnpj, uf, city, number, street);
+    }
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
                 <View style={styles.pointInfo}>
-                    <Text style={styles.pointName}>DOADOR DE ORGÂOES</Text>
-                    <Text style={styles.pointItems}>SIMSISMSIS</Text>
+                    <Text style={styles.pointName}>{name}</Text>
+                    <Text style={styles.pointItems}>{description}</Text>
                 </View>
 
                 <View style={styles.address}>
-                    <Text style={styles.addressTitle}>Travessa Ayrton Senna, 115</Text>
+                    <Text style={styles.addressTitle}>{street}, {number}</Text>
                     <Text style={styles.addressContent}>
-                        Diadema, SP
+                        {uf} - {city}
                     </Text>
                 </View>
 
                 <View style={styles.footer}>
-                    <RectButton style={styles.button} onPress={handleWhatsapp}>
+                    <TouchableOpacity style={styles.button} onPress={handleWhatsapp}>
                         <Icon name="vertical-align-bottom" size={20} color="#FFF" />
                         <Text style={styles.buttonText}>Whatsapp</Text>
-                    </RectButton>
+                    </TouchableOpacity>
 
-                    <RectButton style={styles.button} onPress={handleComposeMail}>
+                    <TouchableOpacity style={styles.button} onPress={handleComposeMail}>
                         <Icon name="mail" size={20} color="#FFF" />
                         <Text style={styles.buttonText}>E-Mail</Text>
-                    </RectButton>
+                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>

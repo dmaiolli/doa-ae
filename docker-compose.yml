@@ -1,11 +1,15 @@
-version: '2'
+version: "3"
+
 services:
-  database:
-    image: oracle/database:12.1.0.2-ee
-    volumes:
-      - /home/oracle/oradata:/opt/oracle/oradata # persistent oracle database data.
+  duodb:
+    image: wnameless/oracle-xe-11g-r2
     ports:
-      - 1521:1521
-      - 8080:8080
-      - 5500:5500
+      - 49161:1521
+    volumes:
+      - .:/duo
+    environment:
+      - ORACLE_ALLOW_REMOTE=true
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=my_database_name
 

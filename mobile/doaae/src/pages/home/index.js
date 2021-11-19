@@ -1,28 +1,22 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput } from 'react-native';
-import { View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
 const Home = (props) => {
-
+    const { navigate } = props.navigation;
     const [uf, setUf] = useState('');
     const [city, setCity] = useState('');
 
-    const handleNavigateToList = () => props.navigation.navigate('listAll', { uf, city });
+    const handleNavigateToList = () => navigate("listAll", { uf, city });
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined} >
             <ScrollView>
-
                 <View style={styles.container}>
-                    <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate("newOng")}>
-                        <View style={styles.buttonIcon}>
-                            <Icon name="arrow-right" color="#FFF" size={24} />
-                        </View>
-                        <Text style={styles.buttonText}>Cadastrar nova ONG</Text>
-                    </TouchableOpacity>
+
 
                     <View style={styles.main}>
                         <View>
@@ -54,6 +48,12 @@ const Home = (props) => {
                                 <Icon name="arrow-right" color="#FFF" size={24} />
                             </View>
                             <Text style={styles.buttonText}>Pesquisar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={() => navigate("newOng")}>
+                            <View style={styles.buttonIcon}>
+                                <Icon name="arrow-right" color="#FFF" size={24} />
+                            </View>
+                            <Text style={styles.buttonText}>Cadastrar nova ONG</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -105,11 +105,11 @@ const styles = StyleSheet.create({
     },
 
     button: {
+        flex: 1,
         backgroundColor: '#34CB79',
         height: 60,
         flexDirection: 'row',
         borderRadius: 10,
-        overflow: 'hidden',
         alignItems: 'center',
         marginTop: 16,
     },
