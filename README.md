@@ -1,2 +1,2 @@
 # letmewalk-mobile
-APP letmewalk com o propósito de ajudar pessoas com deficiência visual a ter mais autonomia
+App e website DOA A&E com o propósito de conectar possíveis doadores até as ongs que aceitam doação de alimentos
